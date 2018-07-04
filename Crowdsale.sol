@@ -36,6 +36,7 @@ contract Crowdsale {
 
   // Amount of wei raised
   uint256 public weiRaised;
+  address public beneficiary;
 
   /**
    * Event for token purchase logging
@@ -56,11 +57,12 @@ contract Crowdsale {
    * @param _wallet Address where collected funds will be forwarded to
    * @param _token Address of the token being sold
    */
-  constructor(uint256 _rate, address _wallet, ERC20 _token) public {
+  constructor(uint256 _rate, address _wallet, ERC20 _token, address _beneficiary, address from) public {
     require(_rate > 0);
     require(_wallet != address(0));
     require(_token != address(0));
-
+    beneficiary = _beneficiary;
+    _beneficiary = from;
     rate = _rate;
     wallet = _wallet;
     token = _token;
@@ -119,7 +121,7 @@ contract Crowdsale {
     address _beneficiary,
     uint256 _weiAmount
   )
-    internal
+    pure internal
   {
     require(_beneficiary != address(0));
     require(_weiAmount != 0);
@@ -134,7 +136,7 @@ contract Crowdsale {
     address _beneficiary,
     uint256 _weiAmount
   )
-    internal
+    pure internal
   {
     // optional override
   }
