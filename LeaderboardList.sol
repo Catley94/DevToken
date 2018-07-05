@@ -19,10 +19,18 @@ contract LeaderboardList {
     using SafeMath for uint8, uint256;
     //Public definition for leaderBoardPos (Position)
     uint8 public leaderboardPos;
+    //Public definition for depositAmount - equal to 1 ether (testing purposes only, set to DevTokens in future)
+    //Commented out below, testing between public definition or requirement
+    //uint public depositAmount = 1 * ether;
+
+    //Requirement of 1 ether for depositAmount
+    modifier depositAmount {
+      require(depositAmount = 1 * ether);
+    }
 
     //Check that the deposit of the candidate/listee meets the deposit requirement
     modifier depositReq {
-      require(Developer[deposit] == true);
+      require(_checkDeposit == true);
 
     }
 
@@ -45,8 +53,16 @@ contract LeaderboardList {
       mapping (uint => Developer) developers;
 
     }
-    //Defining each
-    function
+    //Defining the check for the deposit has been reached.
+    function _checkDeposit (uint _depositAmount) private {
+      depositAmount = _depositAmount;
+      if msg.sender[msg.value] == _depositAmount {
+        return true
+      }
+        // write else statement here
+      }
+
+    }
 
 
     function posOnLeaderboard (uint8 position, uint numOfVotes) internal depositReq() {
