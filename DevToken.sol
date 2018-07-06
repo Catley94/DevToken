@@ -2,10 +2,10 @@ pragma solidity ^0.4.24;
 
 import "./BondingCurve.sol";
 import "./LeaderboardList.sol";
+import "./proxy.sol";
 
 
-
-contract DevToken is BondingCurve, LeaderboardList {
+contract DevToken is BondingCurve, LeaderboardList, Proxy {
 
 
 
