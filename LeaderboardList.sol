@@ -16,21 +16,22 @@ Define the position on the leaderboard by weight (as mentioned above).
 */
 contract LeaderboardList {
 
-    using SafeMath for uint8; 
+    using SafeMath for uint8;
     using SafeMath for uint256;
-   
+
     //Public definition for depositAmount - equal to 1 ether (testing purposes only, set to DevTokens in future)
     //Commented out below, testing between public definition or requirement
     //uint public depositAmount = 1 * ether;
 
     //Requirement of 1 ether for depositAmount
     modifier depositAmount {
-      require(depositAmount = 1 * ether);
+      require(depositAmount == 1 * ether);
     }
-
+    uint depositAmount = 1 * ether;
+    bool checkDeposit = false;
     //Check that the deposit of the candidate/listee meets the deposit requirement
     modifier paidDeposit {
-      require(_checkDeposit == true);
+      require(checkDeposit == true);
 
     }
 
@@ -46,31 +47,46 @@ contract LeaderboardList {
     }
      //Public definition for leaderBoardPos (Position)
     uint8 public leaderboardPos;
-    mapping (address => mapping(uint => Developer)) developers;
-    uint counter;
+
+    Developer[] public developers;
+
 
     //Struct for the Leaderboard, listing variables below
     struct Leaderboard {
       uint16 totalDevList;
-      
-    }
-
-    function registerDev(address _ethaddress, string _name) public payable returns (uint ) {
-      counter = counter + 1; 
-
 
     }
-    
-    
+
+    function registerDev(address _ethaddress, string _name) public payable depositAmount returns (uint ) {
+      counter = counter + 1;
+      if (msg.value >= 1 ether) {
+        checkDeposit = true;
+        developers.push(Developer(_ethaddress, _name, checkDeposit)) -1;
+      } else {
+        checkDeposit = false
+        //revert? Error throw
+
+      }
+
+      //uint id =
+
+
+
+
+
+
+    }
+
+
 
     function getAllDevInfo () internal view {
-      
+
     }
 
     //Correct/edit function below
     //Load developer in memory, reference the memory for the function below
     function posOnLeaderboard (uint8 _position, uint _numOfVotes) internal view {
-     
+
 
     }
 
