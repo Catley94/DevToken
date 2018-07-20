@@ -57,13 +57,13 @@ contract LeaderboardList {
 
     }
 
-    function registerDev(address _ethaddress, string _name) public payable depositAmount returns (uint ) {
+    function registerDev(address _ethaddress, string _name, bool _checkDeposit) public payable depositAmount returns (uint ) {
       counter = counter + 1;
       if (msg.value >= 1 ether) {
-        checkDeposit = true;
+        _checkDeposit = checkDeposit = true;
         developers.push(Developer(_ethaddress, _name, checkDeposit)) -1;
       } else {
-        checkDeposit = false
+        _checkDeposit = checkDeposit = false
         //revert? Error throw
 
       }
