@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 import "./StandardToken.sol";
 import "./Ownable.sol";
 import "./BancorFormula.sol";
+import "./DevToken.sol";
 
 
 /**
@@ -12,7 +13,7 @@ import "./BancorFormula.sol";
  * https://github.com/bancorprotocol/contracts
  * https://github.com/ConsenSys/curationmarkets/blob/master/CurationMarkets.sol
  */
-contract BondingCurve is StandardToken, BancorFormula, Ownable {
+contract BondingCurve is DevToken, BancorFormula, Ownable {
   /**
    * @dev Available balance of reserve token in contract
    */
@@ -52,6 +53,7 @@ contract BondingCurve is StandardToken, BancorFormula, Ownable {
    */
   function buy() validGasPrice public payable returns(bool) {
     require(msg.value > 0);
+    totalSupply = totalSupply_;
     uint256 tokensToMint = calculatePurchaseReturn(totalSupply_, poolBalance, reserveRatio, msg.value);
     totalSupply_ = totalSupply_.add(tokensToMint);
     balance[msg.sender] = balance[msg.sender].add(tokensToMint);
@@ -96,4 +98,3 @@ contract BondingCurve is StandardToken, BancorFormula, Ownable {
   event LogWithdraw(uint256 amountWithdrawn, uint256 reward);
   event LogBondingCurve(string logString, uint256 value);
 }
-
