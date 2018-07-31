@@ -42,18 +42,30 @@ contract LeaderboardList is BondingCurve {
   rate = _rate; // replace with static rate of token, base price.
   token = _token; // replace _token with token smart contract address.
 }
-*/
-    uint public rate;
-    ERC20 public token;
+*/  //DECLARE variables
     using SafeMath for uint8;
     using SafeMath for uint256;
+    uint public rate;
+    uint minDepositAmount = 100 DVT;
+    ERC20 public DVT;
+    uint16 totalNumOfDevs = developers.length;
 
+
+    bool checkDeposit = false;
+
+
+    //ENUMS
     event LogMint(tokensToMint, msg.value);
+
+
+    //EVENTS
+    event devCreated(name, position, depositPaid);
 
     //Public definition for depositAmount - equal to 1 ether (testing purposes only, set to DevTokens in future)
     //Commented out below, testing between public definition or requirement
     //uint public depositAmount = 100 * DVT;
 
+    //MODIFIERS
     //Requirement of 100 DVT for depositAmount
     modifier depositAmount(uint _value) {
       //link rate to BondingCurve and BancorFormula
@@ -62,20 +74,21 @@ contract LeaderboardList is BondingCurve {
       require(_value == 100 DVT);
       _;
     }
-    uint minDepositAmount = 100 DVT;
-    bool checkDeposit = false;
+
     //Check that the deposit of the candidate/listee meets the deposit requirement
     modifier paidDeposit {
       require(checkDeposit == true);
       _;
 
     }
+
+    //MAPPINGS
     mapping(uint => address) idToOwner;
 
-    event devCreated(name, position, depositPaid);
 
-    uint16 totalNumOfDevs = developers.length;
-s
+
+    //STRUCTS
+
     //Struct for the developer, listing variables below
     //TODO "numOfChallenges", is it needed?
     struct Developer {
@@ -86,8 +99,19 @@ s
       uint public numOfChallenges;
       bool internal depositPaid;
     }
+
+    //ARRAYS
      //Public definition for leaderBoardPos (Position)
      Developer[] public developers;
+
+
+     //FUNCTIONS
+
+     constructor() public {
+       token = EIP20Interface(_tokenAddr); // contract address for token
+
+
+     }
 
 //create function for both dev deposit and user deposit, currently the below covers all deposits but not ideal.
         function registerDev(address _myAddress, string _name, bool _checkDeposit, uint _totalNumOfDevs) public payable depositAmount {
